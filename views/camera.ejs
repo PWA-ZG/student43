@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Camera App</title>
+</head>
+<body>
+  <h1>Camera View</h1>
+
+
+    <video id="videoElement" width="640" height="480" autoplay></video>
+
+  <div id="fallback-content">
+  </div>
+  <script>
+
+  const constraints = { video: true };
+
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices.getUserMedia(constraints)
+        .then((stream) => {
+          const videoElement = document.querySelector('#videoElement');
+          videoElement.srcObject = stream;
+        })
+        .catch((error) => {
+          console.error('Camera access denied or not available:', error);
+          handleFallback();
+        });
+    } else {
+      console.log('Camera not supported.');
+      handleFallback();
+    }
+
+    function handleFallback() {
+      const fallbackElement = document.querySelector('#fallback-content');
+      fallbackElement.innerHTML = '<p>Camera is not available.</p>';
+    }
+  </script>
+</body>
+</html>
